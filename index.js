@@ -2,11 +2,11 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 import path from "path";
 import express from 'express';
 import {requestTime, loggeer} from "./middlewares.js";
-import router from './routes/servers.js'
+import serverRouter from './routes/servers.js'
 
 const __dirname = path.resolve();
 dotenv.config()
-
+console.log('serverRouter', serverRouter)
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.static(path.resolve(__dirname, 'static'))); //* не менят�
 app.use(requestTime);
 app.use(loggeer);
 
-app.use(router)
+app.use(serverRouter)
 
 //* заменено строкой 14
 // app.get('/', (req, res) => {
@@ -41,7 +41,7 @@ app.get('/features', (req, res) => {
 
 
 app.get('/download', (req, res) => {
-	console.log(req.requestTime)
+	console.log(serverRouter())
 	res.download(path.resolve(__dirname, 'static/demo', 'features.html'));
 })
 
